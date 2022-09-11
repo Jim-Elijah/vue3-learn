@@ -1,5 +1,5 @@
 <template>
-  <div class="audio-box">
+  <div class="audio-player-box">
     <audio
       @canplay="updateDuration"
       @ended="endedHandler"
@@ -16,9 +16,10 @@
       :duration="duration"
       :isPlaying="isPlaying"
       :isMuted="isMuted"
-      :progeressBarClickHandler="progeressBarClickHandler"
-      :mousedownHandler="mousedownHandler"
-      :volumeBarClickHandler="volumeBarClickHandler"
+      :noMusic="noMusic"
+      :onProgressBarClick="progressBarClickHandler"
+      :OnProgressMousedown="progressMousedownHandler"
+      :onVolumeBarClick="volumeBarClickHandler"
       :togglePlay="togglePlay"
       :back="back"
       :forward="forward"
@@ -32,8 +33,7 @@ export default {
   props: {
     src: {
       type: String,
-      default:
-        "https://img-qn.51miz.com/Audio/2017/02/06/08/20170206081849_A100187_34f7e6b8-thumb.mp3",
+      default: "",
     },
     forwardStep: {
       type: Number,
@@ -47,6 +47,26 @@ export default {
     muteThreshold: {
       type: Number,
       default: 0.08,
+    },
+    currentRef: {
+      type: Object,
+      default: () => ({}),
+    },
+    progressBarRefName: {
+      type: String,
+      default: 'progressBarRef',
+    },
+    progressRefName: {
+      type: String,
+      default: 'progressRef',
+    },
+    volumeBarRefName: {
+      type: String,
+      default: 'volumeBarRef',
+    },
+    volumeRefName: {
+      type: String,
+      default: 'volumeRef',
     },
   },
   data() {
@@ -68,24 +88,23 @@ export default {
       return this.audioVolume < this.muteThreshold;
     },
     audioRef() {
-      const vm = this.$parent.$refs.audio;
-      return vm.$refs.audioRef;
+      const { audioRef = {} } = this.currentRef.$refs || {}
+      return audioRef
     },
-    progressBarBgRef() {
-      const tmp = this.$parent.$refs.progressBarBgRef;
-      return tmp;
+    noMusic() {
+      return this.duration === '00:00'
     },
     progressBarRef() {
-      const tmp = this.$parent.$refs.progressBarRef;
-      return tmp;
+      return this.$parent.$refs[this.progressBarRefName] || {};
     },
-    volumeBarBgRef() {
-      const tmp = this.$parent.$refs.volumeBarBgRef;
-      return tmp;
+    progressRef() {
+      return this.$parent.$refs[this.progressRefName] || {};
     },
     volumeBarRef() {
-      const tmp = this.$parent.$refs.volumeBarRef;
-      return tmp;
+      return this.$parent.$refs[this.volumeBarRefName] || {};
+    },
+    volumeRef() {
+      return this.$parent.$refs[this.volumeRefName] || {};
     },
   },
   methods: {
@@ -101,6 +120,9 @@ export default {
     },
     // 播放暂停控制
     togglePlay() {
+      if (this.noMusic) {
+        return
+      }
       const audioRef = this.audioRef;
       if (this.currentTime === this.duration) {
         this.currentTime = "00:00";
@@ -117,6 +139,7 @@ export default {
     },
     // 回退
     back() {
+      if (this.noMusic) return
       const audioRef = this.audioRef;
       let currentTime = audioRef.currentTime - this.backStep;
       if (currentTime < 0) {
@@ -127,10 +150,11 @@ export default {
     },
     // 快进
     forward() {
+      if (this.noMusic) return
       const audioRef = this.audioRef;
       let currentTime = audioRef.currentTime + this.forwardStep;
       if (currentTime > audioRef.duration) {
-        currentTime = audioRef.duration - 0.01;
+        currentTime = audioRef.duration;
       }
       audioRef.currentTime = currentTime;
       this.currentTime = this.transTime(currentTime);
@@ -139,9 +163,9 @@ export default {
     updateTime() {
       const audioRef = this.audioRef;
       const value = audioRef.currentTime / audioRef.duration;
-      const progressBarRef = this.progressBarRef;
-      if (progressBarRef) {
-        progressBarRef.style.width = value * 100 + "%";
+      const progressRef = this.progressRef;
+      if (progressRef) {
+        progressRef.style.width = value * 100 + "%";
         if (value === 1) {
           this.isPlaying = false;
         }
@@ -167,33 +191,35 @@ export default {
       return minute + isM0 + sec;
     },
     updateProgress(offsetX) {
-      const progressBarBgRef = this.progressBarBgRef;
       const progressBarRef = this.progressBarRef;
+      const progressRef = this.progressRef;
       const audioRef = this.audioRef;
 
-      const clientWidth = progressBarBgRef.clientWidth;
+      const clientWidth = progressBarRef.clientWidth;
       // 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
       const ratio = offsetX / clientWidth;
       const rate = ratio * 100;
 
       // 设置进度条宽度
-      progressBarRef.style.width = rate + "%";
+      progressRef.style.width = rate + "%";
       // 设置audio当前播放时刻
       audioRef.currentTime = audioRef.duration * ratio;
       // 设置播放时间
       this.currentTime = this.transTime(audioRef.currentTime);
     },
-    progeressBarClickHandler(e) {
+    progressBarClickHandler(e) {
+      if (this.noMusic) return
       if (!this.isMoving || this.isPlaying) {
         this.updateProgress(e.offsetX);
       }
     },
     volumeBarClickHandler(e) {
-      const volumeBarBgRef = this.volumeBarBgRef;
+      if (this.noMusic) return
       const volumeBarRef = this.volumeBarRef;
+      const volumeRef = this.volumeRef;
       const audioRef = this.audioRef;
 
-      const clientHeight = volumeBarBgRef.clientHeight;
+      const clientHeight = volumeBarRef.clientHeight;
 
       // 只有音乐开始播放后才可以调节，已经播放过但暂停了的也可以
       const ratio = e.offsetY / clientHeight;
@@ -203,27 +229,28 @@ export default {
       const isMuted = ratio < this.muteThreshold;
       const audioVolume = isMuted ? 0 : ratio;
       // 设置音量进度条高度
-      volumeBarRef.style.height = !isMuted ? rate + "%" : "0%";
+      volumeRef.style.height = !isMuted ? rate + "%" : "0%";
       // 设置audio音量
       audioRef.volume = audioVolume;
       this.audioVolume = audioVolume;
     },
-    mousedownHandler() {
+    progressMousedownHandler() {
+      if (this.noMusic) return
       // 拖动前保存播放状态
       this.savedIsPlaying = this.isPlaying;
       this.audioRef.pause();
       this.isPlaying = false;
       this.isMoving = true;
 
-      const progressBarBgRef = this.progressBarBgRef;
+      const progressBarRef = this.progressBarRef;
       //进度条 左 边距离页面左边的距离 移动最小值
       let moveMin =
-        progressBarBgRef.offsetParent.offsetLeft + progressBarBgRef.offsetLeft;
+        progressBarRef.offsetParent.offsetLeft + progressBarRef.offsetLeft;
       //进度条 右 边距离页面左边的距离 移动最大值
       let moveMax =
-        progressBarBgRef.offsetParent.offsetLeft +
-        progressBarBgRef.offsetLeft +
-        progressBarBgRef.clientWidth;
+        progressBarRef.offsetParent.offsetLeft +
+        progressBarRef.offsetLeft +
+        progressBarRef.clientWidth;
 
       let move = (move) => {
         if (move.pageX >= moveMax) {
@@ -255,5 +282,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

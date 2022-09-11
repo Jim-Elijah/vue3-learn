@@ -212,7 +212,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   padding: 0 10px;
-  align-items: start;
+  align-items: flex-start;
 }
 .more-wrapper ul li {
   list-style: none;

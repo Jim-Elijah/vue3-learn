@@ -4,6 +4,7 @@ import HelloWorld from '../components/HelloWorld.vue'
 import DeptName from '../components/DeptName.vue'
 import TreeMenu from '../components/TreeMenu.vue'
 import AudioPlayer from '../components/audioDemo.vue'
+import AudioEasyPlayer from '../components/audioEasyDemo.vue'
 import AudioDrag from '../components/audioDrag/AudioDrag.vue'
 
 const routes = [
@@ -26,6 +27,10 @@ const routes = [
   {
     path: '/AudioDrag',
     component: AudioDrag,
+  },
+  {
+    path: '/AudioEasyPlayer',
+    component: AudioEasyPlayer,
   },
 ]
 
