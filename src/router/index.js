@@ -6,6 +6,7 @@ import TreeMenu from '../components/TreeMenu.vue'
 import AudioPlayer from '../components/audioDemo.vue'
 import AudioEasyPlayer from '../components/audioEasyDemo.vue'
 import AudioDrag from '../components/audioDrag/AudioDrag.vue'
+import JimsAudioPlayer from '../components/jimsPlugin/JimsAudioPlayer.vue'
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
   {
     path: '/AudioEasyPlayer',
     component: AudioEasyPlayer,
+  },
+  {
+    path: '/JimsAudioPlayer',
+    component: JimsAudioPlayer,
   },
 ]
 

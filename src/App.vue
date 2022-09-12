@@ -5,6 +5,7 @@
   <router-link to="/AudioPlayer">AudioPlayer</router-link>
   <router-link to="/AudioEasyPlayer">AudioEasyPlayer</router-link>
   <router-link to="/AudioDrag">AudioDrag</router-link>
+  <router-link to="/JimsAudioPlayer">JimsAudioPlayer</router-link>
   <router-view></router-view>
 </template>
 
