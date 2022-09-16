@@ -7,6 +7,7 @@ import AudioPlayer from '../components/audioDemo.vue'
 import AudioEasyPlayer from '../components/audioEasyDemo.vue'
 import AudioDrag from '../components/audioDrag/AudioDrag.vue'
 import JimsAudioPlayer from '../components/jimsPlugin/JimsAudioPlayer.vue'
+import draggableDemo from '../components/draggableDemo.vue'
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
   {
     path: '/JimsAudioPlayer',
     component: JimsAudioPlayer,
+  },
+  {
+    path: '/draggableDemo',
+    component: draggableDemo,
   },
 ]
 
