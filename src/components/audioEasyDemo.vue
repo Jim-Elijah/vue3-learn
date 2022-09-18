@@ -60,7 +60,7 @@ export default {
         progressRefName,
       },
       audioSrc:
-        "https://m801.music.126.net/20220911225036/cc94f400ede4c51cb4c281e7524390f5/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/14096448125/9f26/c61d/8ec5/ff6818dec4d407643fad991f07a6660d.mp3",
+        "https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3",
     };
   },
   components: {
