@@ -10,7 +10,6 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "element-plus": "^2.2.12",
-    "jim-audio-player": "^0.1.2",
     "vue": "^3.2.38",
     "vue-router": "^4.0.0",
     "vuedraggable": "next"
@@ -23,6 +22,7 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "jim-audio-player-vue3": "^0.1.1",
     "node-sass": "^7.0.1",
     "sass-loader": "^13.0.2"
   },

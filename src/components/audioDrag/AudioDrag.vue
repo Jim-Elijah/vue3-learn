@@ -44,7 +44,7 @@
     props: {
       audioSrc: {
         type: String,
-        default: 'https://img-qn.51miz.com/Audio/2017/02/06/08/20170206081849_A100187_34f7e6b8-thumb.mp3'
+        default: 'https://www.cambridgeenglish.org/images/153149-movers-sample-listening-test-vol2.mp3'
       },
       backSecond: {
         type: Number,
