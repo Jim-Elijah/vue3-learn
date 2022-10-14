@@ -7,6 +7,7 @@
   <router-link to="/draggableDemo">draggableDemo</router-link>
   <router-link to="/lottieDemo">lottieDemo</router-link>
   <router-link to="/CarouselDemo">CarouselDemo</router-link>
+  <router-link to="/animationImage">animationImage</router-link>
   <router-view></router-view>
 </template>
 

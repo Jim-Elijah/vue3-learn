@@ -8,6 +8,8 @@ import JimsAudioPlayer from '../components/jimsPlugin/JimsAudioPlayer.vue'
 import draggableDemo from '../components/draggableDemo.vue'
 import lottieDemo from '../components/lottie-demo/index.vue'
 import CarouselDemo from '../components/carouselDemo/index.vue'
+import animationImage from '../components/carouselDemo/animationImage.vue'
+
 const routes = [
   {
     path: '/',
@@ -40,6 +42,10 @@ const routes = [
   {
     path: '/CarouselDemo',
     component: CarouselDemo,
+  },
+  {
+    path: '/animationImage',
+    component: animationImage,
   },
 ]
 

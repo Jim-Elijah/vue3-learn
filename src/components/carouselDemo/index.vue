@@ -1,19 +1,30 @@
 <template>
   <div class="carousel-wrapper">
     <div class="carousel">
-      <img
-        :src="item.url"
-        alt="无法展示"
-        v-for="item in carouselList.slice(0, 10)"
-        :key="item.url"
-        class="img"
-      />
+      <div class="img-wrapper">
+        <img
+          :src="item.url"
+          alt="无法展示"
+          v-for="item in testList"
+          :key="item.url"
+          class="img"
+        />
+      </div>
+      <div class="img-wrapper">
+        <img
+          :src="item.url"
+          alt="无法展示"
+          v-for="item in testList"
+          :key="item.url"
+          class="img"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'carousel-demo',
+  name: "carousel-demo",
   data() {
     return {
       carouselList: [
@@ -80,31 +91,38 @@ export default {
       ],
     };
   },
+  computed: {
+    testList() {
+      return this.carouselList.slice(0, 10);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 .carousel-wrapper {
   position: relative;
+  width: 100%;
   overflow: hidden;
   height: 168px;
   margin-top: 60px;
   .carousel {
-    width: 5000px;
+    display: flex;
+    width: 6000px;
     height: 100%;
     padding-bottom: 20px;
     position: absolute;
     box-sizing: border-box;
     border-style: none;
-    animation-name: banner-logo-scroll;
-    // animation-duration: 40s;
-    animation-duration: 4s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    // animation-fill-mode: both;
-
+    .img-wrapper {
+      animation-name: banner-logo-scroll;
+      animation-duration: 6s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
     .img {
       margin: 0 0 20px 20px;
       width: 205px;
+      box-sizing: border-box;
       height: 100%;
       background: #ffffff;
       border: 1px solid rgba(0, 0, 0, 0.1);
@@ -112,7 +130,7 @@ export default {
       border-radius: 10px;
     }
   }
-  .carousel:hover {
+  .img-wrapper:hover {
     cursor: pointer;
     animation-play-state: paused;
   }
