@@ -9,6 +9,8 @@ import draggableDemo from '../components/draggableDemo.vue'
 import lottieDemo from '../components/lottie-demo/index.vue'
 import CarouselDemo from '../components/carouselDemo/index.vue'
 import animationImage from '../components/carouselDemo/animationImage.vue'
+import radarDemo from '../components/canvasDemo/Radar.vue'
+
 
 const routes = [
   {
@@ -46,6 +48,10 @@ const routes = [
   {
     path: '/animationImage',
     component: animationImage,
+  },
+  {
+    path: '/radarDemo',
+    component: radarDemo,
   },
 ]
 
